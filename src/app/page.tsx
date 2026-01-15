@@ -1,22 +1,188 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InstructionSection from "@/components/InstructionSection";
 
 type OS = "Windows" | "Linux" | "MacOS";
 
+const toolIds = [
+  "tool-node",
+  "tool-git",
+  "tool-vscode",
+  "tool-docker",
+  "tool-uv",
+  "tool-gh",
+];
+
+const sectionIds = [
+  "intro",
+  "os-selection",
+  "accounts-access",
+  "software-stack",
+  ...toolIds,
+  "local-git",
+  "final-verification",
+  "troubleshooting",
+];
+
 export default function Home() {
   const [activeOS, setActiveOS] = useState<OS>("Windows");
+  const [activeSection, setActiveSection] = useState("intro");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const isSoftwareActive =
+    activeSection === "software-stack" || toolIds.includes(activeSection);
 
   return (
-    <main className="min-h-screen px-4 py-16 relative overflow-hidden">
+    <main className="min-h-screen px-4 py-16 relative">
       {/* Background Decorative Blobs */}
       <div className="fixed -top-40 -left-40 w-96 h-96 bg-sky-400/20 rounded-full blur-[128px] pointer-events-none" />
       <div className="fixed top-1/2 -right-40 w-96 h-96 bg-amber-300/20 rounded-full blur-[128px] pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="lg:flex lg:gap-10">
+          <aside className="hidden lg:block lg:w-56 xl:w-64 flex-shrink-0">
+            <div className="sticky top-8">
+              <p className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-4">
+                Table of Contents
+              </p>
+              <nav className="space-y-2 text-sm text-slate-600">
+                <a
+                  className={`block hover:text-slate-900 ${
+                    activeSection === "intro" ? "font-semibold text-slate-900" : ""
+                  }`}
+                  href="#intro"
+                >
+                  Overview
+                </a>
+                <a
+                  className={`block hover:text-slate-900 ${
+                    activeSection === "os-selection" ? "font-semibold text-slate-900" : ""
+                  }`}
+                  href="#os-selection"
+                >
+                  Operating System
+                </a>
+                <a
+                  className={`block hover:text-slate-900 ${
+                    activeSection === "accounts-access" ? "font-semibold text-slate-900" : ""
+                  }`}
+                  href="#accounts-access"
+                >
+                  Accounts and Access
+                </a>
+                <a
+                  className={`block hover:text-slate-900 ${
+                    isSoftwareActive ? "font-semibold text-slate-900" : ""
+                  }`}
+                  href="#software-stack"
+                >
+                  Software Stack
+                </a>
+                <div className="pl-4 space-y-1 text-xs text-slate-500">
+                  <a
+                    className={`block hover:text-slate-900 ${
+                      activeSection === "tool-node" ? "font-semibold text-slate-900" : ""
+                    }`}
+                    href="#tool-node"
+                  >
+                    Node.js (LTS)
+                  </a>
+                  <a
+                    className={`block hover:text-slate-900 ${
+                      activeSection === "tool-git" ? "font-semibold text-slate-900" : ""
+                    }`}
+                    href="#tool-git"
+                  >
+                    Git
+                  </a>
+                  <a
+                    className={`block hover:text-slate-900 ${
+                      activeSection === "tool-vscode" ? "font-semibold text-slate-900" : ""
+                    }`}
+                    href="#tool-vscode"
+                  >
+                    VS Code
+                  </a>
+                  <a
+                    className={`block hover:text-slate-900 ${
+                      activeSection === "tool-docker" ? "font-semibold text-slate-900" : ""
+                    }`}
+                    href="#tool-docker"
+                  >
+                    Docker Desktop
+                  </a>
+                  <a
+                    className={`block hover:text-slate-900 ${
+                      activeSection === "tool-uv" ? "font-semibold text-slate-900" : ""
+                    }`}
+                    href="#tool-uv"
+                  >
+                    uv (Python)
+                  </a>
+                  <a
+                    className={`block hover:text-slate-900 ${
+                      activeSection === "tool-gh" ? "font-semibold text-slate-900" : ""
+                    }`}
+                    href="#tool-gh"
+                  >
+                    GitHub CLI
+                  </a>
+                </div>
+                <a
+                  className={`block hover:text-slate-900 ${
+                    activeSection === "local-git" ? "font-semibold text-slate-900" : ""
+                  }`}
+                  href="#local-git"
+                >
+                  Local Git Setup
+                </a>
+                <a
+                  className={`block hover:text-slate-900 ${
+                    activeSection === "final-verification"
+                      ? "font-semibold text-slate-900"
+                      : ""
+                  }`}
+                  href="#final-verification"
+                >
+                  Final Verification
+                </a>
+                <a
+                  className={`block hover:text-slate-900 ${
+                    activeSection === "troubleshooting" ? "font-semibold text-slate-900" : ""
+                  }`}
+                  href="#troubleshooting"
+                >
+                  Troubleshooting
+                </a>
+              </nav>
+            </div>
+          </aside>
+
+          <div className="flex-1 min-w-0">
         {/* INTRO */}
-        <header className="mb-12 text-left space-y-4">
+        <header id="intro" className="mb-12 text-left space-y-4 scroll-mt-24">
           <p className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
             Developer Environment Guide
           </p>
@@ -58,7 +224,7 @@ export default function Home() {
         </header>
 
         {/* OS SELECTION */}
-        <section className="mb-16">
+        <section id="os-selection" className="mb-16 scroll-mt-24">
           <div className="glass-card rounded-2xl p-6">
             <h2 className="text-lg font-semibold text-slate-900 mb-2">
               Choose your operating system
@@ -85,7 +251,7 @@ export default function Home() {
         </section>
 
         {/* SECTION: CLOUD SETUP */}
-        <section className="mb-20">
+        <section id="accounts-access" className="mb-20 scroll-mt-24">
           <div className="flex items-center gap-4 mb-10">
             <div className="h-px bg-slate-200 flex-1"></div>
             <h2 className="text-2xl font-bold text-slate-800 tracking-wide uppercase">
@@ -197,7 +363,7 @@ export default function Home() {
         </section>
 
         {/* SECTION: SOFTWARE INSTALLATION */}
-        <section className="mb-20">
+        <section id="software-stack" className="mb-20 scroll-mt-24">
           <div className="flex items-center gap-4 mb-10">
             <div className="h-px bg-slate-200 flex-1"></div>
             <h2 className="text-2xl font-bold text-slate-800 tracking-wide uppercase">
@@ -207,144 +373,156 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 gap-8">
-            <InstructionSection
-              title="Install Node.js (LTS)"
-              description="Node.js runs the app and tooling. Use the LTS version for stability."
-              link="https://nodejs.org/en/download"
-              linkText="Download Node.js LTS"
-              command={
-                activeOS === "Windows"
-                  ? "Go to https://nodejs.org/en/download, click Windows Installer (LTS), run the .msi file."
-                  : activeOS === "MacOS"
-                    ? "Go to https://nodejs.org/en/download, click macOS Installer (LTS), open the .pkg file."
-                    : "Go to https://nodejs.org/en/download, use the Linux installer for your distro."
-              }
-              verificationCommand="node --version"
-            >
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 mt-6">
-                <p className="text-xs uppercase tracking-wider text-amber-700 mb-2 font-semibold">
-                  Hint
-                </p>
-                <p className="text-sm text-slate-700">
-                  Restart your terminal after installation to refresh your PATH.
-                </p>
-              </div>
-            </InstructionSection>
-
-            <InstructionSection
-              title="Install Git"
-              description="Git is required to clone repos and track code changes."
-              link="https://git-scm.com/downloads"
-              linkText="Download Git"
-              command={
-                activeOS === "Windows"
-                  ? "Go to https://git-scm.com/downloads, click Windows, run the installer."
-                  : activeOS === "MacOS"
-                    ? "Go to https://git-scm.com/downloads, click macOS, open the installer."
-                    : "Go to https://git-scm.com/downloads, select your Linux package instructions."
-              }
-              verificationCommand="git --version"
-            >
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 mt-6">
-                <p className="text-xs uppercase tracking-wider text-amber-700 mb-2 font-semibold">
-                  Note
-                </p>
-                <p className="text-sm text-slate-700">
-                  On macOS, Git may prompt you to install Command Line Tools. Click Install.
-                </p>
-              </div>
-            </InstructionSection>
-
-            <InstructionSection
-              title="Install Visual Studio Code"
-              description="VS Code is the recommended editor for this project."
-              link="https://code.visualstudio.com/Download"
-              linkText="Download VS Code"
-              command={
-                activeOS === "Windows"
-                  ? "Go to https://code.visualstudio.com/Download, download the Windows installer, run it."
-                  : activeOS === "MacOS"
-                    ? "Go to https://code.visualstudio.com/Download, download the macOS .zip, drag to Applications."
-                    : "Go to https://code.visualstudio.com/Download, choose your Linux download, and install."
-              }
-              verificationCommand="code --version"
-            >
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 mt-6">
-                <p className="text-xs uppercase tracking-wider text-amber-700 mb-2 font-semibold">
-                  Hint
-                </p>
-                <p className="text-sm text-slate-700">
-                  Install these extensions: "Python", "Pylance", and "Python Debugger".
-                </p>
-              </div>
-            </InstructionSection>
-
-            <InstructionSection
-              title="Install Docker Desktop"
-              description="Docker is used for local services and integration tests."
-              link="https://docs.docker.com/get-started/get-docker/"
-              linkText="Download Docker Desktop"
-              command={
-                activeOS === "Windows"
-                  ? "Go to https://docs.docker.com/get-started/get-docker/, choose Windows, run the installer."
-                  : activeOS === "MacOS"
-                    ? "Go to https://docs.docker.com/get-started/get-docker/, choose macOS, open the .dmg."
-                    : "Go to https://docs.docker.com/get-started/get-docker/, choose Linux and follow the steps."
-              }
-              verificationCommand="docker --version"
-            >
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 mt-6">
-                <p className="text-xs uppercase tracking-wider text-amber-700 mb-2 font-semibold">
-                  Note
-                </p>
-                <p className="text-sm text-slate-700">
-                  After install, open Docker Desktop once and finish setup.
-                </p>
-              </div>
-            </InstructionSection>
-
-            <InstructionSection
-              title="Install uv (Python Manager)"
-              description="uv is used for Python tooling and scripts in this project."
-              link="https://docs.astral.sh/uv/getting-started/installation/"
-              linkText="uv Install Docs"
-              command={
-                activeOS === "Windows"
-                  ? "Go to https://docs.astral.sh/uv/getting-started/installation/, copy the Windows PowerShell install command, run it."
-                  : "Go to https://docs.astral.sh/uv/getting-started/installation/, copy the install command for your OS, run it."
-              }
-              verificationCommand="uv --version"
-              footer={
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mt-6">
-                  <p className="text-sm text-slate-700 mb-2 font-semibold">
-                    After install (do this first)
+            <div id="tool-node" className="scroll-mt-24">
+              <InstructionSection
+                title="Install Node.js (LTS)"
+                description="Node.js runs the app and tooling. Use the LTS version for stability."
+                link="https://nodejs.org/en/download"
+                linkText="Download Node.js LTS"
+                command={
+                  activeOS === "Windows"
+                    ? "Go to https://nodejs.org/en/download, click Windows Installer (LTS), run the .msi file."
+                    : activeOS === "MacOS"
+                      ? "Go to https://nodejs.org/en/download, click macOS Installer (LTS), open the .pkg file."
+                      : "Go to https://nodejs.org/en/download, use the Linux installer for your distro."
+                }
+                verificationCommand="node --version"
+              >
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 mt-6">
+                  <p className="text-xs uppercase tracking-wider text-amber-700 mb-2 font-semibold">
+                    Hint
                   </p>
-                  <code className="text-sm font-mono text-slate-800 whitespace-pre">
-                    uv python install 3.12
-                  </code>
+                  <p className="text-sm text-slate-700">
+                    Restart your terminal after installation to refresh your PATH.
+                  </p>
                 </div>
-              }
-            />
+              </InstructionSection>
+            </div>
 
-            <InstructionSection
-              title="Install GitHub CLI (gh)"
-              description="GitHub CLI is needed for the login step later and for cloning repos."
-              link="https://cli.github.com/"
-              linkText="Download GitHub CLI"
-              command={
-                activeOS === "Windows"
-                  ? "Go to https://cli.github.com/, click Download for Windows, run the installer."
-                  : activeOS === "MacOS"
-                    ? "Go to https://cli.github.com/, click Download for macOS, open the .pkg file."
-                    : "Go to https://cli.github.com/, choose your Linux distro and follow the install steps."
-              }
-              verificationCommand="gh --version"
-            />
+            <div id="tool-git" className="scroll-mt-24">
+              <InstructionSection
+                title="Install Git"
+                description="Git is required to clone repos and track code changes."
+                link="https://git-scm.com/downloads"
+                linkText="Download Git"
+                command={
+                  activeOS === "Windows"
+                    ? "Go to https://git-scm.com/downloads, click Windows, run the installer."
+                    : activeOS === "MacOS"
+                      ? "Go to https://git-scm.com/downloads, click macOS, open the installer."
+                      : "Go to https://git-scm.com/downloads, select your Linux package instructions."
+                }
+                verificationCommand="git --version"
+              >
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 mt-6">
+                  <p className="text-xs uppercase tracking-wider text-amber-700 mb-2 font-semibold">
+                    Note
+                  </p>
+                  <p className="text-sm text-slate-700">
+                    On macOS, Git may prompt you to install Command Line Tools. Click Install.
+                  </p>
+                </div>
+              </InstructionSection>
+            </div>
+
+            <div id="tool-vscode" className="scroll-mt-24">
+              <InstructionSection
+                title="Install Visual Studio Code"
+                description="VS Code is the recommended editor for this project."
+                link="https://code.visualstudio.com/Download"
+                linkText="Download VS Code"
+                command={
+                  activeOS === "Windows"
+                    ? "Go to https://code.visualstudio.com/Download, download the Windows installer, run it."
+                    : activeOS === "MacOS"
+                      ? "Go to https://code.visualstudio.com/Download, download the macOS .zip, drag to Applications."
+                      : "Go to https://code.visualstudio.com/Download, choose your Linux download, and install."
+                }
+                verificationCommand="code --version"
+              >
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 mt-6">
+                  <p className="text-xs uppercase tracking-wider text-amber-700 mb-2 font-semibold">
+                    Hint
+                  </p>
+                  <p className="text-sm text-slate-700">
+                    Install these extensions: "Python", "Pylance", and "Python Debugger".
+                  </p>
+                </div>
+              </InstructionSection>
+            </div>
+
+            <div id="tool-docker" className="scroll-mt-24">
+              <InstructionSection
+                title="Install Docker Desktop"
+                description="Docker is used for local services and integration tests."
+                link="https://docs.docker.com/get-started/get-docker/"
+                linkText="Download Docker Desktop"
+                command={
+                  activeOS === "Windows"
+                    ? "Go to https://docs.docker.com/get-started/get-docker/, choose Windows, run the installer."
+                    : activeOS === "MacOS"
+                      ? "Go to https://docs.docker.com/get-started/get-docker/, choose macOS, open the .dmg."
+                      : "Go to https://docs.docker.com/get-started/get-docker/, choose Linux and follow the steps."
+                }
+                verificationCommand="docker --version"
+              >
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 mt-6">
+                  <p className="text-xs uppercase tracking-wider text-amber-700 mb-2 font-semibold">
+                    Note
+                  </p>
+                  <p className="text-sm text-slate-700">
+                    After install, open Docker Desktop once and finish setup.
+                  </p>
+                </div>
+              </InstructionSection>
+            </div>
+
+            <div id="tool-uv" className="scroll-mt-24">
+              <InstructionSection
+                title="Install uv (Python Manager)"
+                description="uv is used for Python tooling and scripts in this project."
+                link="https://docs.astral.sh/uv/getting-started/installation/"
+                linkText="uv Install Docs"
+                command={
+                  activeOS === "Windows"
+                    ? "Go to https://docs.astral.sh/uv/getting-started/installation/, copy the Windows PowerShell install command, run it."
+                    : "Go to https://docs.astral.sh/uv/getting-started/installation/, copy the install command for your OS, run it."
+                }
+                verificationCommand="uv --version"
+                footer={
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mt-6">
+                    <p className="text-sm text-slate-700 mb-2 font-semibold">
+                      After install (do this first)
+                    </p>
+                    <code className="text-sm font-mono text-slate-800 whitespace-pre">
+                      uv python install 3.12
+                    </code>
+                  </div>
+                }
+              />
+            </div>
+
+            <div id="tool-gh" className="scroll-mt-24">
+              <InstructionSection
+                title="Install GitHub CLI (gh)"
+                description="GitHub CLI is needed for the login step later and for cloning repos."
+                link="https://cli.github.com/"
+                linkText="Download GitHub CLI"
+                command={
+                  activeOS === "Windows"
+                    ? "Go to https://cli.github.com/, click Download for Windows, run the installer."
+                    : activeOS === "MacOS"
+                      ? "Go to https://cli.github.com/, click Download for macOS, open the .pkg file."
+                      : "Go to https://cli.github.com/, choose your Linux distro and follow the install steps."
+                }
+                verificationCommand="gh --version"
+              />
+            </div>
           </div>
         </section>
 
         {/* SECTION: LOCAL SETUP */}
-        <section className="mb-20">
+        <section id="local-git" className="mb-20 scroll-mt-24">
           <div className="flex items-center gap-4 mb-10">
             <div className="h-px bg-slate-200 flex-1"></div>
             <h2 className="text-2xl font-bold text-slate-800 tracking-wide uppercase">
@@ -446,7 +624,7 @@ export default function Home() {
         </section>
 
         {/* SECTION: VERIFICATION */}
-        <section className="mb-20">
+        <section id="final-verification" className="mb-20 scroll-mt-24">
           <div className="flex items-center gap-4 mb-10">
             <div className="h-px bg-slate-200 flex-1"></div>
             <h2 className="text-2xl font-bold text-slate-800 tracking-wide uppercase">
@@ -508,7 +686,7 @@ export default function Home() {
         </section>
 
         {/* SECTION: TROUBLESHOOTING */}
-        <section className="mb-20">
+        <section id="troubleshooting" className="mb-20 scroll-mt-24">
           <div className="flex items-center gap-4 mb-10">
             <div className="h-px bg-slate-200 flex-1"></div>
             <h2 className="text-2xl font-bold text-slate-800 tracking-wide uppercase">
@@ -569,6 +747,8 @@ export default function Home() {
         <footer className="text-center text-slate-500 py-10 border-t border-slate-200">
           <p className="text-sm">Designed for VAM Nexus. © {new Date().getFullYear()}</p>
         </footer>
+          </div>
+        </div>
       </div>
     </main>
   );
