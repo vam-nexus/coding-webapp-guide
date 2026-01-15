@@ -8,6 +8,7 @@ interface InstructionSectionProps {
     command?: string;
     verificationCommand?: string;
     children?: React.ReactNode;
+    footer?: React.ReactNode;
 }
 
 export default function InstructionSection({
@@ -18,6 +19,7 @@ export default function InstructionSection({
     command,
     verificationCommand,
     children,
+    footer,
 }: InstructionSectionProps) {
     return (
         <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 transition-transform duration-300 hover:scale-[1.01]">
@@ -77,7 +79,7 @@ export default function InstructionSection({
                         </div>
                         <div className="p-4 overflow-x-auto relative">
                             <div className="absolute left-0 top-4 bottom-4 w-1 bg-blue-500/20"></div>
-                            <code className="text-sm font-mono text-blue-700 whitespace-pre pl-4 block">
+                            <code className="text-sm font-mono text-blue-300 whitespace-pre pl-4 block">
                                 <span className="text-slate-500 select-none">$ </span>
                                 {verificationCommand}
                             </code>
@@ -85,6 +87,8 @@ export default function InstructionSection({
                     </div>
                 )}
             </div>
+
+            {footer}
         </div>
     );
 }

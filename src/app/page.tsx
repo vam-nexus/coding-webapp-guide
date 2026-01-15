@@ -274,7 +274,7 @@ export default function Home() {
                   Hint
                 </p>
                 <p className="text-sm text-slate-700">
-                  Install the "ESLint" and "Prettier" extensions after VS Code opens.
+                  Install these extensions: "Python", "Pylance", and "Python Debugger".
                 </p>
               </div>
             </InstructionSection>
@@ -314,16 +314,17 @@ export default function Home() {
                   : "Go to https://docs.astral.sh/uv/getting-started/installation/, copy the install command for your OS, run it."
               }
               verificationCommand="uv --version"
-            >
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mb-6">
-                <p className="text-sm text-slate-700 mb-2 font-semibold">
-                  After install (do this first)
-                </p>
-                <code className="text-sm font-mono text-slate-800 whitespace-pre">
-                  uv python install 3.12
-                </code>
-              </div>
-            </InstructionSection>
+              footer={
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mt-6">
+                  <p className="text-sm text-slate-700 mb-2 font-semibold">
+                    After install (do this first)
+                  </p>
+                  <code className="text-sm font-mono text-slate-800 whitespace-pre">
+                    uv python install 3.12
+                  </code>
+                </div>
+              }
+            />
 
             <InstructionSection
               title="Install GitHub CLI (gh)"
@@ -502,6 +503,65 @@ export default function Home() {
                   <span className="text-red-400">git push</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION: TROUBLESHOOTING */}
+        <section className="mb-20">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="h-px bg-slate-200 flex-1"></div>
+            <h2 className="text-2xl font-bold text-slate-800 tracking-wide uppercase">
+              05. Troubleshooting
+            </h2>
+            <div className="h-px bg-slate-200 flex-1"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="glass-card rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Command not found</h3>
+              <p className="text-sm text-slate-600 mb-3">
+                If a command like <code className="bg-slate-100 px-1.5 py-0.5 rounded">node</code> or{" "}
+                <code className="bg-slate-100 px-1.5 py-0.5 rounded">git</code> is not found:
+              </p>
+              <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+                <li>Close your terminal and open it again.</li>
+                <li>Restart your computer if the command still does not exist.</li>
+                <li>Re-run the installer and accept the default PATH options.</li>
+              </ul>
+            </div>
+
+            <div className="glass-card rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Docker not working</h3>
+              <p className="text-sm text-slate-600 mb-3">
+                If <code className="bg-slate-100 px-1.5 py-0.5 rounded">docker --version</code> fails:
+              </p>
+              <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+                <li>Open Docker Desktop and wait until it shows Running.</li>
+                <li>On Windows, make sure WSL2 is installed if Docker asks for it.</li>
+              </ul>
+            </div>
+
+            <div className="glass-card rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">GitHub login issues</h3>
+              <p className="text-sm text-slate-600 mb-3">
+                If <code className="bg-slate-100 px-1.5 py-0.5 rounded">gh auth login</code> fails:
+              </p>
+              <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+                <li>Run <code className="bg-slate-100 px-1.5 py-0.5 rounded">gh auth login</code> again and choose web browser login.</li>
+                <li>Make sure your GitHub account has 2FA enabled.</li>
+              </ul>
+            </div>
+
+            <div className="glass-card rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">SSH permission denied</h3>
+              <p className="text-sm text-slate-600 mb-3">
+                If <code className="bg-slate-100 px-1.5 py-0.5 rounded">ssh -T git@github.com</code> fails:
+              </p>
+              <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+                <li>Confirm your public key is added in GitHub settings.</li>
+                <li>Make sure you copied the full key text.</li>
+              </ul>
             </div>
           </div>
         </section>
