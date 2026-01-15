@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  --background-base: #f8fafc;
+  /* Light slate background */
+}
+
+@theme {
+  --color-slate-50: #f8fafc;
+  --color-sky-600: #0284c7;
+  --color-amber-500: #f59e0b;
+}
+
+body {
+  background-color: var(--background-base);
+  color: #0f172a;
+  /* Dark slate text */
+  background-image:
+    radial-gradient(at 0% 0%, rgba(2, 132, 199, 0.08) 0px, transparent 55%),
+    radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.08) 0px, transparent 55%);
+  background-attachment: fixed;
+}
+
+/* Card Utilities */
+.glass-card {
+  @apply shadow-md backdrop-blur-sm;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.glass-button {
+  @apply transition-all duration-200;
+  background-color: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.glass-button:hover {
+  background-color: rgba(15, 23, 42, 0.08);
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-sky-600 to-amber-500;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #e2e8f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
